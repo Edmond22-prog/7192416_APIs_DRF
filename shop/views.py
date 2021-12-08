@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Category
-from .serializers import CategorySerializer
+from .models import Category, Product
+from .serializers import CategorySerializer, ProductSerializer
 
 class CategoryAPIView(APIView):
 
@@ -14,4 +14,12 @@ class CategoryAPIView(APIView):
         # partir de l'itérable transmis categories. Si ce n'etait qu'un element, pas nécessaire de mettre le many
         serializer = CategorySerializer(categories, many=True)
         # Renvoi une reponse avec les donnees serialisées
+        return Response(serializer.data)
+
+
+class ProductAPIView(APIView):
+
+    def get(self, *args, **kwargs):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
