@@ -1,13 +1,17 @@
 from django.contrib import admin
 from django.urls import path, include
 
-from shop.views import CategoryAPIView, ProductAPIView
+from rest_framework import routers
+from shop.views import CategoryViewset
+
+# Création du routeur
+router = routers.SimpleRouter()
+# Ajout d'une url et sa view dans le routeur
+router.register('category', CategoryViewset, basename='category')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    # Lien de notre endpoint
-    path('api/category/', CategoryAPIView.as_view()),
-    # Lien de mon premier endpoint
-    path('api/product/', ProductAPIView.as_view())
+    # Ajout des urls du routeur dans les urls disponible
+    path('api/', include(router.urls))
 ]
